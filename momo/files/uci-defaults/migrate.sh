@@ -11,6 +11,8 @@ section_placeholder=$(uci -q get momo.placeholder); [ -z "$section_placeholder" 
 proxy_bypass_china_mainland_ip=$(uci -q get momo.proxy.bypass_china_mainland_ip)
 proxy_bypass_china_mainland_ip6=$(uci -q get momo.proxy.bypass_china_mainland_ip6)
 [ -z "$proxy_bypass_china_mainland_ip6" ] && uci set momo.proxy.bypass_china_mainland_ip6=$proxy_bypass_china_mainland_ip
+proxy_only_proxy_china_mainland_ip=$(uci -q get momo.proxy.only_proxy_china_mainland_ip); [ -z "$proxy_only_proxy_china_mainland_ip" ] && uci set momo.proxy.only_proxy_china_mainland_ip=0
+proxy_only_proxy_china_mainland_ip6=$(uci -q get momo.proxy.only_proxy_china_mainland_ip6); [ -z "$proxy_only_proxy_china_mainland_ip6" ] && uci set momo.proxy.only_proxy_china_mainland_ip6=0
 
 routing_tproxy_fw_mask=$(uci -q get momo.routing.tproxy_fw_mask); [ -z "$routing_tproxy_fw_mask" ] && uci set momo.routing.tproxy_fw_mask=0xFF
 routing_tun_fw_mask=$(uci -q get momo.routing.tun_fw_mask); [ -z "$routing_tun_fw_mask" ] && uci set momo.routing.tun_fw_mask=0xFF

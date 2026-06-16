@@ -172,9 +172,19 @@ return view.extend({
 
         o = s.taboption('bypass', form.Flag, 'bypass_china_mainland_ip', _('Bypass China Mainland IP'));
         o.rmempty = false;
+        o.depends('only_proxy_china_mainland_ip', '0');
+
+        o = s.taboption('bypass', form.Flag, 'only_proxy_china_mainland_ip', _('Only Proxy China Mainland IP'));
+        o.rmempty = false;
+        o.depends('bypass_china_mainland_ip', '0');
 
         o = s.taboption('bypass', form.Flag, 'bypass_china_mainland_ip6', _('Bypass China Mainland IP6'));
         o.rmempty = false;
+        o.depends('only_proxy_china_mainland_ip6', '0');
+
+        o = s.taboption('bypass', form.Flag, 'only_proxy_china_mainland_ip6', _('Only Proxy China Mainland IP6'));
+        o.rmempty = false;
+        o.depends('bypass_china_mainland_ip6', '0');
 
         o = s.taboption('bypass', form.Value, 'proxy_tcp_dport', _('Destination TCP Port to Proxy'));
         o.rmempty = false;

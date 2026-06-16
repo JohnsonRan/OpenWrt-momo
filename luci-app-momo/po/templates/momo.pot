@@ -49,7 +49,15 @@ msgid "Bypass China Mainland IP"
 msgstr ""
 
 #: applications/luci-app-momo/htdocs/luci-static/resources/view/momo/proxy.js:176
+msgid "Only Proxy China Mainland IP"
+msgstr ""
+
+#: applications/luci-app-momo/htdocs/luci-static/resources/view/momo/proxy.js:179
 msgid "Bypass China Mainland IP6"
+msgstr ""
+
+#: applications/luci-app-momo/htdocs/luci-static/resources/view/momo/proxy.js:182
+msgid "Only Proxy China Mainland IP6"
 msgstr ""
 
 #: applications/luci-app-momo/htdocs/luci-static/resources/view/momo/proxy.js:189

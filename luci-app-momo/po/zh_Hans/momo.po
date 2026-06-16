@@ -56,8 +56,16 @@ msgid "Bypass China Mainland IP"
 msgstr "绕过中国大陆 IP"
 
 #: applications/luci-app-momo/htdocs/luci-static/resources/view/momo/proxy.js:176
+msgid "Only Proxy China Mainland IP"
+msgstr "仅让中国大陆 IP 经过核心"
+
+#: applications/luci-app-momo/htdocs/luci-static/resources/view/momo/proxy.js:179
 msgid "Bypass China Mainland IP6"
 msgstr "绕过中国大陆 IP6"
+
+#: applications/luci-app-momo/htdocs/luci-static/resources/view/momo/proxy.js:182
+msgid "Only Proxy China Mainland IP6"
+msgstr "仅让中国大陆 IP6 经过核心"
 
 #: applications/luci-app-momo/htdocs/luci-static/resources/view/momo/proxy.js:189
 msgid "Bypass DSCP"

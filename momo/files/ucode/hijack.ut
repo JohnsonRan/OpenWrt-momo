@@ -106,8 +106,16 @@
 
 	const reserved_ip = uci_array(uci.get('momo', 'proxy', 'reserved_ip'));
 	const reserved_ip6 = uci_array(uci.get('momo', 'proxy', 'reserved_ip6'));
-	const bypass_china_mainland_ip = uci_bool(uci.get('momo', 'proxy', 'bypass_china_mainland_ip'));
-	const bypass_china_mainland_ip6 = uci_bool(uci.get('momo', 'proxy', 'bypass_china_mainland_ip6'));
+	const only_proxy_china_mainland_ip = uci_bool(uci.get('momo', 'proxy', 'only_proxy_china_mainland_ip'));
+	const only_proxy_china_mainland_ip6 = uci_bool(uci.get('momo', 'proxy', 'only_proxy_china_mainland_ip6'));
+	let bypass_china_mainland_ip = uci_bool(uci.get('momo', 'proxy', 'bypass_china_mainland_ip'));
+	let bypass_china_mainland_ip6 = uci_bool(uci.get('momo', 'proxy', 'bypass_china_mainland_ip6'));
+	if (only_proxy_china_mainland_ip) {
+		bypass_china_mainland_ip = false;
+	}
+	if (only_proxy_china_mainland_ip6) {
+		bypass_china_mainland_ip6 = false;
+	}
 	const proxy_tcp_dport = split((uci.get('momo', 'proxy', 'proxy_tcp_dport') ?? '0-65535'), ' ');
 	const proxy_udp_dport = split((uci.get('momo', 'proxy', 'proxy_udp_dport') ?? '0-65535'), ' ');
 	const bypass_dscp = uci_array(uci.get('momo', 'proxy', 'bypass_dscp'));
@@ -505,8 +513,18 @@ table inet momo {
 		ct direction reply counter return
 		ip daddr @reserved_ip {% if (fake_ip_range): %} ip daddr != {{ fake_ip_range }} {% endif %} counter return
 		ip6 daddr @reserved_ip6 {% if (fake_ip6_range): %} ip6 daddr != {{ fake_ip6_range }} {% endif %} counter return
+		{% if (only_proxy_china_mainland_ip): %}
+		meta nfproto ipv4 ip daddr != @china_ip {% if (fake_ip_range): %} ip daddr != {{ fake_ip_range }} {% endif %} counter return
+		{% endif %}
+		{% if (only_proxy_china_mainland_ip6): %}
+		meta nfproto ipv6 ip6 daddr != @china_ip6 {% if (fake_ip6_range): %} ip6 daddr != {{ fake_ip6_range }} {% endif %} counter return
+		{% endif %}
+		{% if (bypass_china_mainland_ip): %}
 		ip daddr @china_ip counter return
+		{% endif %}
+		{% if (bypass_china_mainland_ip6): %}
 		ip6 daddr @china_ip6 counter return
+		{% endif %}
 		meta nfproto ipv4 meta l4proto . th dport != @proxy_dport {% if (fake_ip_range): %} ip daddr != {{ fake_ip_range }} {% endif %} counter return
 		meta nfproto ipv6 meta l4proto . th dport != @proxy_dport {% if (fake_ip6_range): %} ip6 daddr != {{ fake_ip6_range }} {% endif %} counter return
 		meta l4proto { tcp, udp } ip dscp @bypass_dscp {% if (fake_ip_range): %} ip daddr != {{ fake_ip_range }} {% endif %} counter return
@@ -537,8 +555,18 @@ table inet momo {
 		ct direction reply counter return
 		ip daddr @reserved_ip {% if (fake_ip_range): %} ip daddr != {{ fake_ip_range }} {% endif %} counter return
 		ip6 daddr @reserved_ip6 {% if (fake_ip6_range): %} ip6 daddr != {{ fake_ip6_range }} {% endif %} counter return
+		{% if (only_proxy_china_mainland_ip): %}
+		meta nfproto ipv4 ip daddr != @china_ip {% if (fake_ip_range): %} ip daddr != {{ fake_ip_range }} {% endif %} counter return
+		{% endif %}
+		{% if (only_proxy_china_mainland_ip6): %}
+		meta nfproto ipv6 ip6 daddr != @china_ip6 {% if (fake_ip6_range): %} ip6 daddr != {{ fake_ip6_range }} {% endif %} counter return
+		{% endif %}
+		{% if (bypass_china_mainland_ip): %}
 		ip daddr @china_ip counter return
+		{% endif %}
+		{% if (bypass_china_mainland_ip6): %}
 		ip6 daddr @china_ip6 counter return
+		{% endif %}
 		meta nfproto ipv4 meta l4proto . th dport != @proxy_dport {% if (fake_ip_range): %} ip daddr != {{ fake_ip_range }} {% endif %} counter return
 		meta nfproto ipv6 meta l4proto . th dport != @proxy_dport {% if (fake_ip6_range): %} ip6 daddr != {{ fake_ip6_range }} {% endif %} counter return
 		meta l4proto { tcp, udp } ip dscp @bypass_dscp {% if (fake_ip_range): %} ip daddr != {{ fake_ip_range }} {% endif %} counter return
@@ -571,8 +599,18 @@ table inet momo {
 		ct direction reply counter return
 		ip daddr @reserved_ip {% if (fake_ip_range): %} ip daddr != {{ fake_ip_range }} {% endif %} counter return
 		ip6 daddr @reserved_ip6 {% if (fake_ip6_range): %} ip6 daddr != {{ fake_ip6_range }} {% endif %} counter return
+		{% if (only_proxy_china_mainland_ip): %}
+		meta nfproto ipv4 ip daddr != @china_ip {% if (fake_ip_range): %} ip daddr != {{ fake_ip_range }} {% endif %} counter return
+		{% endif %}
+		{% if (only_proxy_china_mainland_ip6): %}
+		meta nfproto ipv6 ip6 daddr != @china_ip6 {% if (fake_ip6_range): %} ip6 daddr != {{ fake_ip6_range }} {% endif %} counter return
+		{% endif %}
+		{% if (bypass_china_mainland_ip): %}
 		ip daddr @china_ip counter return
+		{% endif %}
+		{% if (bypass_china_mainland_ip6): %}
 		ip6 daddr @china_ip6 counter return
+		{% endif %}
 		meta nfproto ipv4 meta l4proto . th dport != @proxy_dport {% if (fake_ip_range): %} ip daddr != {{ fake_ip_range }} {% endif %} counter return
 		meta nfproto ipv6 meta l4proto . th dport != @proxy_dport {% if (fake_ip6_range): %} ip6 daddr != {{ fake_ip6_range }} {% endif %} counter return
 		meta l4proto { tcp, udp } ip dscp @bypass_dscp {% if (fake_ip_range): %} ip daddr != {{ fake_ip_range }} {% endif %} counter return
@@ -598,8 +636,18 @@ table inet momo {
 		ct direction reply counter return
 		ip daddr @reserved_ip {% if (fake_ip_range): %} ip daddr != {{ fake_ip_range }} {% endif %} counter return
 		ip6 daddr @reserved_ip6 {% if (fake_ip6_range): %} ip6 daddr != {{ fake_ip6_range }} {% endif %} counter return
+		{% if (only_proxy_china_mainland_ip): %}
+		meta nfproto ipv4 ip daddr != @china_ip {% if (fake_ip_range): %} ip daddr != {{ fake_ip_range }} {% endif %} counter return
+		{% endif %}
+		{% if (only_proxy_china_mainland_ip6): %}
+		meta nfproto ipv6 ip6 daddr != @china_ip6 {% if (fake_ip6_range): %} ip6 daddr != {{ fake_ip6_range }} {% endif %} counter return
+		{% endif %}
+		{% if (bypass_china_mainland_ip): %}
 		ip daddr @china_ip counter return
+		{% endif %}
+		{% if (bypass_china_mainland_ip6): %}
 		ip6 daddr @china_ip6 counter return
+		{% endif %}
 		meta nfproto ipv4 meta l4proto . th dport != @proxy_dport {% if (fake_ip_range): %} ip daddr != {{ fake_ip_range }} {% endif %} counter return
 		meta nfproto ipv6 meta l4proto . th dport != @proxy_dport {% if (fake_ip6_range): %} ip6 daddr != {{ fake_ip6_range }} {% endif %} counter return
 		meta l4proto { tcp, udp } ip dscp @bypass_dscp {% if (fake_ip_range): %} ip daddr != {{ fake_ip_range }} {% endif %} counter return
@@ -612,9 +660,9 @@ table inet momo {
 	{% endif %}
 }
 
-{% if (bypass_china_mainland_ip): %}
+{% if (bypass_china_mainland_ip || only_proxy_china_mainland_ip): %}
 include "/etc/momo/firewall/geoip_cn.nft"
 {% endif %}
-{% if (bypass_china_mainland_ip6): %}
+{% if (bypass_china_mainland_ip6 || only_proxy_china_mainland_ip6): %}
 include "/etc/momo/firewall/geoip6_cn.nft"
 {% endif %}
